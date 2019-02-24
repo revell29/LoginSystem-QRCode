@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="" action="" id="form-login">
                         @csrf
 
                         <div class="form-group row">
@@ -50,10 +50,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row">  
+                            <div class="col-md-6 offset-md-4">
+                                <div class="alert alert-danger" style="display: none;">
+                                    <strong class="feedback"></strong>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-2">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="button" class="btn btn-primary" id="login">
                                     {{ __('Login') }}
                                 </button>
                                 <a class="btn btn-link" href="{{ route('qr.login') }}">
@@ -68,3 +75,27 @@
     </div>
 </div>
 @endsection
+@push('script')
+<script>
+$('#login').click(function(){
+    $.ajax({
+        url: '{{route('login')}}',
+        data: $('#form-login').serialize(),
+        dataType: 'JSON',
+        method: 'POST',
+        beforeSend: function(response){
+            $('#login').html('please wait..').prop('disabled',true);
+        },
+        success: function(response,xhr){
+            window.location.href = response.redirect;
+            console.log(response);
+        },error: function(response){
+            $('.alert').show();
+            $('#login').html('login').prop('disabled',false);
+            console.log(response.responseJSON.message)
+            $('.feedback').html(response.responseJSON.message);
+        }             
+    })
+})
+</script>
+@endpush

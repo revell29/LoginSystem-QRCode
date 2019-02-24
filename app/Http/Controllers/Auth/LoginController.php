@@ -55,23 +55,26 @@ class LoginController extends Controller
 
     public function attemptLogin(Request $request)
     {
-        $data = explode(',',$request->get('data'));
+      
         if ($request->has('data')){
+            $data = explode(',',$request->get('data'));
             $email = $data[0];
             $password = $data[1];
             $creadential = [
                 'email' => $email,
                 'password' => $password
             ];
+            $checking = User::where('email',$email)->first();
+
         } else {
             $creadential = [
                 'email' => $request->email,
                 'password' => $request->password
             ];
+            $checking = User::where('email',$request->email)->first();
         }
         
         /* checking email */
-        $checking = User::where('email',$email)->first();
         if ($checking){
             if(Auth::attempt($creadential)) {
                 return response()->json([
