@@ -72,5 +72,6 @@
 <script src="{{ asset('js/jquery.js') }}"></script>
 <script src="{{ asset('js/jsqrcode-combined.js') }}"></script>
 <script src="{{ asset('js/html5-qrcode.js') }}"></script>
+<script src="{{ asset('js/auth-login.js') }}"></script>
 @stack('script')
 </html>

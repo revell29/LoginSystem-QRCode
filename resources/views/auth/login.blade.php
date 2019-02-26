@@ -75,27 +75,3 @@
     </div>
 </div>
 @endsection
-@push('script')
-<script>
-$('#login').click(function(){
-    $.ajax({
-        url: '{{route('login')}}',
-        data: $('#form-login').serialize(),
-        dataType: 'JSON',
-        method: 'POST',
-        beforeSend: function(response){
-            $('#login').html('please wait..').prop('disabled',true);
-        },
-        success: function(response,xhr){
-            window.location.href = response.redirect;
-            console.log(response);
-        },error: function(response){
-            $('.alert').show();
-            $('#login').html('login').prop('disabled',false);
-            console.log(response.responseJSON.message)
-            $('.feedback').html(response.responseJSON.message);
-        }             
-    })
-})
-</script>
-@endpush
